@@ -1,0 +1,19 @@
+{
+	"name": "xethron/to-string",
+	"description": "Converts Variables to strings (like print_r) with limiting functions, and Exceptions to strings without cutting off important information.",
+	"keywords": ["print_r", "string", "convert"],
+	"homepage": "http://github.com/Xethron/to-string",
+	"license": "GPL v3",
+	"authors": [
+		{
+			"name": "Bernhard Breytenbach",
+			"email": "bernhard@coffeecode.co.za"
+		}
+	],
+	"autoload": {
+		"psr-0": {
+			"Xethron": "src/"
+		}
+	},
+	"minimum-stability": "dev"
+}
