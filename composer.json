@@ -10,6 +10,9 @@
 			"email": "bernhard@coffeecode.co.za"
 		}
 	],
+	"require": {
+		"php": ">=5.0.0"
+	},
 	"autoload": {
 		"psr-0": {
 			"Xethron": "src/"

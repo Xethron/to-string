@@ -14,7 +14,9 @@ class ToString
 	 */
 	public static function variable( $var, $max_lines = 40, $max_depth = 6, $min_depth = 2 )
 	{
-		return ToString::_varToString( $var, $max_lines, $max_depth, $min_depth )['text'];
+		$result = ToString::_varToString( $var, $max_lines, $max_depth, $min_depth );
+
+		return $result['text'];
 	}
 
 	/**
@@ -50,7 +52,7 @@ class ToString
 		if ( is_array( $return ) ) {
 			return $return;
 		} else {
-			return [ 'text' => $return, 'lines' => 1 ];
+			return array( 'text' => $return, 'lines' => 1 );
 		}
 	}
 
@@ -106,7 +108,7 @@ class ToString
 				$return = "Array()";
 			}
 		}
-		return [ 'text' => $return, 'lines' => ( $lines - $start_lines ) ];
+		return array( 'text' => $return, 'lines' => ( $lines - $start_lines ) );
 	}
 
 	/**
@@ -169,9 +171,9 @@ class ToString
 		$count = 0;
 		foreach ( $trace as $frame ) {
 			$args = "";
+			$expanded_args = "";
 			if ( isset( $frame['args'] ) ) {
 				$args = array();
-				$expanded_args = "";
 				foreach ( $frame['args'] as $arg ) {
 					$args[] = ToString::variable( $arg, 1 );
 					foreach( preg_split( "/(\n)/", ToString::variable( $arg ) ) as $line )
