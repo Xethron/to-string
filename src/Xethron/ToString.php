@@ -12,7 +12,7 @@ class ToString
 	 * @param  int    $min_depth      Minimum depth to print
 	 * @return string                 String representation of Variable
 	 */
-	public static function variable( $var, $max_lines = 40, $max_depth = 6, $min_depth = 2 )
+	public static function variable( $var, $max_lines = 40, $max_depth = 6, $min_depth = 1 )
 	{
 		$result = ToString::_varToString( $var, $max_lines, $max_depth, $min_depth );
 
@@ -32,14 +32,14 @@ class ToString
 	 * @param  int    $indent         How much indentation to start on
 	 * @return string                 String representation of Variable
 	 */
-	protected static function _varToString( $var, $max_lines, $max_depth, $min_depth, $depth = 0, $lines = 1, $lines_reserved = 0, $indent = 0 )
+	protected static function _varToString( $var, $max_lines, $max_depth, $min_depth, $depth = 1, $lines = 1, $lines_reserved = 0, $indent = 0 )
 	{
 		if ( is_string( $var ) ) {
 			$return = "\"" . $var . "\"";
 		} elseif ( is_array( $var ) ) {
 			$return = ToString::print_array( $var, $max_lines, $max_depth, $min_depth, $depth, $lines, $lines_reserved, $indent );
 		} elseif ( is_null( $var ) ) {
-			$return = 'NULL';
+			$return = 'null';
 		} elseif ( is_bool( $var ) ) {
 			$return = ( $var ) ? 'true' : 'false';
 		} elseif ( is_object( $var ) ) {
@@ -78,8 +78,8 @@ class ToString
 			! empty( $array ) &&
 			$depth < $max_depth &&
 			(
-				( $depth <= $min_depth && $lines + $depth + 2 < $max_lines ) ||
-				( $depth > $min_depth && ( $lines + $lines_reserved - 1 ) < $max_lines )
+				( $depth <= $min_depth && $lines + $depth + 1 < $max_lines ) ||
+				( $depth > $min_depth && ( $lines + $lines_reserved + 1 ) < $max_lines )
 			)
 		) {
 			$lines += 2;
@@ -87,11 +87,12 @@ class ToString
 			$indent++;
 			foreach ( $array as $key => $value ) {
 				$result = ToString::_varToString( $value, $max_lines, $max_depth, $min_depth, $depth + 1, $lines, $lines_reserved + $count, $indent + 1 );
+				$key = ToString::variable( $key );
 				$count--;
 				$lines += $result['lines'];
 				$return .= ToString::indent( "[$key] => ". $result['text'] ."\n", $indent );
 
-				if ( ( ( $depth <= $min_depth && ( $lines + $depth ) > $max_lines ) || ( $depth > $min_depth && ( $lines + $lines_reserved ) >= $max_lines + $depth ) ) && ( $count != 1 ) ) {
+				if ( ( ( $depth <= $min_depth && ( $lines + $depth ) > $max_lines ) || ( $depth > $min_depth && ( $lines + $lines_reserved + 1 ) >= $max_lines + $depth ) ) && ( $count != 1 ) ) {
 					if ( $count > 0 ) {
 						$return .= ToString::indent( "... ($count)\n", $indent );
 						$lines++;
